@@ -22,5 +22,5 @@ they can be categorized by their intent and divided into three groups
 3. Behavioural Patterns: These patterns are concerned with algorithms and the assignment of responsibilities between objects.
 
 ### Reference:
-1. (Reference Guru)[https://refactoring.guru/]
-2. (Dive into Design Patterns)[https://refactoring.guru/design-patterns/book]
+1. [Reference Guru](https://refactoring.guru/)
+2. [Dive into Design Patterns](https://refactoring.guru/design-patterns/book)
