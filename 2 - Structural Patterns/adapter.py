@@ -1,6 +1,6 @@
 """ adapter.py """
 
-from abc import ABC, abstractmethod
+from math import sqrt
 
 # Also known as wrapper
 
@@ -169,7 +169,7 @@ from abc import ABC, abstractmethod
 
 class RoundPeg:
     """ Defines a round peg """
-    def __init__(self, radius: float = 5.0) -> None:
+    def __init__(self, radius: float) -> None:
         self.radius: float = radius
 
     def get_radius(self) -> float:
@@ -178,7 +178,7 @@ class RoundPeg:
 
 class RoundHole:
     """ Defines a hole """
-    def __init__(self, radius: float = 5.0) -> None:
+    def __init__(self, radius: float) -> None:
         self.radius: float = radius
 
     def get_radius(self) -> float:
@@ -187,11 +187,40 @@ class RoundHole:
 
     def fits(self, peg: RoundPeg) -> bool:
         """ determines if a peg can go through a hole """
-        return self.radius < peg.get_radius()
+        return self.get_radius() >= peg.get_radius()
 
-# class SquarePeg(RoundPeg):
-#     """ Defines a square peg """
-#     def __init__(self, radius: float = 2.0) -> None:
-#         super().__init__(radius)
-    
-    
+class SquarePeg:
+    """ Defines a square peg """
+
+    def __init__(self, width: float) -> None:
+        self.width: float = width
+
+    def get_width(self) -> float:
+        """ returns the width of the Peg """
+        return self.width
+
+class SquarePegAdapter(SquarePeg):
+    """ Defines a square Peg """
+    def __init__(self, peg: SquarePeg) -> None:
+        super(SquarePeg, self).__init__()
+        self.peg: SquarePeg = peg
+
+    def get_radius(self) -> float:
+        """ returns the width of the peg """
+        return self.peg.get_width() * sqrt(2) / 2
+
+
+if __name__ == "__main__":
+
+    hole = RoundHole(5)
+    rpeg = RoundPeg(5)
+    print(hole.fits(rpeg)) # true
+
+    small_sqpeg = SquarePeg(5)
+    large_sqpeg = SquarePeg(10)
+    # print(hole.fits(small_sqpeg)) # this won't compile (incompatible types)
+
+    small_sqpeg_adapter = SquarePegAdapter(small_sqpeg)
+    large_sqpeg_adapter = SquarePegAdapter(large_sqpeg)
+    print(hole.fits(small_sqpeg_adapter)) # true
+    print(hole.fits(large_sqpeg_adapter)) # false
